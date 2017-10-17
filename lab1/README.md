@@ -2,9 +2,7 @@
 
 ## 内容要求
 
-（1）添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最
-
-新的 nice 值及优先级 prio。建议调用原型为：
+（1）添加一个系统调用，实现对指定进程的 nice 值的修改或读取功能，并返回进程最新的 nice 值及优先级 prio。建议调用原型为：
 
 ```C
 int mysetnice(pid_t pid, int flag, int nicevalue, void __user * prio, void __user * nice);
@@ -16,7 +14,7 @@ pid：进程 ID。
 
 flag：若值为 0，表示读取 nice 值；若值为 1，表示修改 nice 值。
 
-Prio、nice：进程当前优先级及 nice 值。
+prio、nice：进程当前优先级及 nice 值。
 
 返回值：系统调用成功时返回 0，失败时返回错误码 EFAULT。
 
@@ -33,4 +31,4 @@ sys.c
 ./kernel/sys.c
 
 syscalls.h
-/include/linux/syscalls.h
+./include/linux/syscalls.h
