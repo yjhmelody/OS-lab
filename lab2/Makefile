@@ -1,5 +1,4 @@
-obj-m:=hello2.o
-hello2-objs:=hello1.o hello2.o
+obj-m:=test_hello2.o
 KDIR:=/lib/modules/$(shell uname -r)/build
 PWD:=$(shell pwd)
 
