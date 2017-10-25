@@ -1,4 +1,4 @@
-obj-m:=test_hello2.o
+obj-m:=thread-iteration.o
 KDIR:=/lib/modules/$(shell uname -r)/build
 PWD:=$(shell pwd)
 
