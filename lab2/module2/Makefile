@@ -1,4 +1,4 @@
-obj-m:=thread-family-info.o
+obj-m:=process-family-info.o
 KDIR:=/lib/modules/$(shell uname -r)/build
 PWD:=$(shell pwd)
 
