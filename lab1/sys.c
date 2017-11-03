@@ -138,8 +138,8 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 			}
 			// get
 			// need to transform type
-			*(int*)nice = task_nice(p);
-			*(int*)prio = task_prio(p);
+			*(int*)nice = (int)task_nice(p);
+			*(int*)prio = (int)task_prio(p);
 			return 0;
 		}
 	}
