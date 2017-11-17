@@ -120,11 +120,11 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 {
 	// priority function's return value
 	if(pid < 0 || (flag != 1 && flag != 0)){
-		return EFAULT;
+		return -EFAULT;
 	}
 
 	if(nice == NULL || prio == NULL){
-		return EFAULT;
+		return -EFAULT;
 	}
 
 	struct task_struct *p;
@@ -138,12 +138,22 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 			}
 			// get
 			// need to transform type
-			*(int*)nice = (int)task_nice(p);
-			*(int*)prio = (int)task_prio(p);
+			
+			// copy_to_user(nice, &task_nice(p), sizeof(int));
+			if(copy_to_user(nice, &task_nice(p), sizeof(int))){
+				return -EFAULT;
+			}
+
+			// copy_to_user(prio, &task_prio(p), sizeof(int));
+			if(copy_to_user(prio, &task_prio(p), sizeof(int))){
+				return -EFAULT;
+			}
+			// *(int*)nice = (int)task_nice(p);
+			// *(int*)prio = (int)task_prio(p);
 			return 0;
 		}
 	}
-	return EFAULT;
+	return -EFAULT;
 }
 
 /*

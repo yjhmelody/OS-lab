@@ -16,13 +16,13 @@ int main()
     printf("please input the params: pid, flag, nicevalue\n");
     while(~scanf("%d %d %d", &pid, &flag, &nicevalue))
     {
-        ret = syscall(__NR_mysyscall, pid, flag, nicevalue, (void *)&prio, (void *)&nice);
+        ret = syscall(__NR_mysyscall, pid, flag, nicevalue, &prio, &nice);
         if (ret != 0)
         {
             printf("syscall error! error code:%d\n", ret);
             return 0;
         }
-        printf("pid:%d, flag:%d, nicevalue:%d, prio:%d, nice:%d\n", pid, flag, nicevalue, prio + 100, nice);
+        printf("pid:%d, flag:%d, nicevalue:%d, prio:%d, nice:%d\n", pid, flag, nicevalue, prio, nice);
     }
     return 0;
 }
