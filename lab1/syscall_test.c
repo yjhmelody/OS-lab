@@ -17,7 +17,7 @@ int main()
     while(~scanf("%d %d %d", &pid, &flag, &nicevalue))
     {
         ret = syscall(__NR_mysyscall, pid, flag, nicevalue, &prio, &nice);
-        if (ret != 0)
+        if (ret < 0)
         {
             printf("syscall error! error code:%d\n", ret);
             return 0;
