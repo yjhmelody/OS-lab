@@ -12,3 +12,20 @@ Linux 驱动程序占了内核代码的一半以上，开发设计驱动程序�
 * 请根据自身情况，进一步阅读分析程序中用到的相关内核函数的源码实现。
 
 ## 注意事项
+
+* 涉及的数据结构：
+    * struct cdev
+    * struct char_device_struct
+    * file_operations
+    * file
+    * inode
+* 初始化流程:
+    * 分配设备号
+    * 定义 cdev 结构并初始化
+    * 注册 cdev 结构
+* 实现字符设备驱动程序的操作函数
+    * 实现 file_operations 结构中要用到的函数
+    * 添加 file_operations 成员
+* 注销设备
+    * 撤销 cdev 结构
+    * 释放设备号
