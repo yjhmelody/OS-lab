@@ -8,19 +8,44 @@
 #include <linux/types.h>
 #include <linux/slab.h>
 #include <asm/uaccess.h>
-
+struct file_operations
+{
+    struct module *owner;                                                     /*拥有该结构的模块，一般为 THIS_MODULE*/
+    ssize_t (*read)(struct file *, char __user *, size_t, loff_t *);          /*从设备中读取数据*/
+    ssize_t (*write)(struct file *, const char __user *, size_t, loff_t *);   /*向设备中写数据*/
+    int (*ioctl)(struct inode *, struct file *, unsigned int, unsigned long); /*执行设备的 I/O
+控制命令*/
+    int (*open)(struct inode *, struct file *);                               /*打开设备文件*/
+    int (*release)(struct inode *, struct file *);                            /*关闭设备文件*/
+    ……
+};
 MODULE_LICENSE("GPL");
+
+const static int device_size = 512;
+const static dev_t first = 1000;
+const static unsigned int count = 10;
 
 // yjh's char driver
 typedef struct yjh_mem_dev
 {
     struct cdev cdev;
-    unsigned char mem[512];
+    unsigned char mem[device_size];
 } yjh_mem_dev;
 
+yjh_mem_dev yjh_dev;
+
 // 这些函数具体实现设备的相关操作
-static int (*yjh_open)(struct inode *inode, struct file *file);
-static int (*yjh_read)(struct file *file, char __user *buf, size_t n, loff_t *loff);
+static int (*yjh_open)(struct inode *inode, struct file *file)
+{
+    file->private_data = contain_of(inode->i_cdev, yjh_mem_dev, cdev);
+    return 0;
+}
+
+static int (*yjh_read)(struct file *file, char __user *buf, size_t n, loff_t *loff)
+{
+    yjh_mem_dev *dev = (yjh_mem_dev *)file->private_data;
+    copy_to_user(buf, dev, n);
+}
 static int (*yjh_write)(struct file *file, const char __user *buf, size_t n, loff_t *loff);
 static int (*yjh_ioctl)(struct inode *inode, struct file *file, unsigned int cmd, unsigned long arg);
 static int (*yjh_release)(struct inode *inode, struct file *file);
@@ -35,13 +60,28 @@ static struct file_operations yjh_file_op = {
     .release = yjh_release}
 
 static int
-driver_init(void)
+driver_init()
 {
+    memset(&yjh_dev, 0, sizeof(yjh_dev));
+    cdev_init(&yjh_dev.cdev, yjh_file_op);
+    int ret = cdev_add(&yjh_dev.cdev, first, count);
+    if (ret < 0)
+    {
+        printk("device number error!\n");
+    }
 }
 
-static void driver_exit(void)
+static void driver_exit()
 {
-    printk(KERN_ALERT "good bye char driver\n");
+    cdev_del(&yjh_dev.cdev);
+    // 动态分配设备号 int alloc_chrdev_region(dev_t *dev,unsigned firstminor,unsigned count,char *name)
+    // 静态分配设备号
+    int ret = unregister_chrdev_region(, count);
+    if (ret < 0)
+    {
+        printk("allocation error!\n");
+        return -1;
+    }
 }
 
 module_init(hello_init);
