@@ -128,6 +128,7 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 	}
 
 	struct task_struct *p;
+	int temp;
 	// finder begins at init_task
 	for(p = &init_task;(p = next_task(p)) != &init_task;){
 		// when find the pid
@@ -139,13 +140,12 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 			// get
 			// need to transform type
 			
-			// copy_to_user(nice, &task_nice(p), sizeof(int));
-			if(copy_to_user(nice, &task_nice(p), sizeof(int))){
+			temp = task_nice(p);
+			if(copy_to_user(nice, &temp, sizeof(int))){
 				return -EFAULT;
 			}
-
-			// copy_to_user(prio, &task_prio(p), sizeof(int));
-			if(copy_to_user(prio, &task_prio(p), sizeof(int))){
+			temp = task_prio(p);
+			if(copy_to_user(prio, &temp, sizeof(int))){
 				return -EFAULT;
 			}
 			// *(int*)nice = (int)task_nice(p);

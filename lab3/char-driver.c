@@ -8,17 +8,7 @@
 #include <linux/types.h>
 #include <linux/slab.h>
 #include <asm/uaccess.h>
-struct file_operations
-{
-    struct module *owner;                                                     /*拥有该结构的模块，一般为 THIS_MODULE*/
-    ssize_t (*read)(struct file *, char __user *, size_t, loff_t *);          /*从设备中读取数据*/
-    ssize_t (*write)(struct file *, const char __user *, size_t, loff_t *);   /*向设备中写数据*/
-    int (*ioctl)(struct inode *, struct file *, unsigned int, unsigned long); /*执行设备的 I/O
-控制命令*/
-    int (*open)(struct inode *, struct file *);                               /*打开设备文件*/
-    int (*release)(struct inode *, struct file *);                            /*关闭设备文件*/
-    ……
-};
+
 MODULE_LICENSE("GPL");
 
 const static int device_size = 512;
