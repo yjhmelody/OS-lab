@@ -15,6 +15,10 @@ module_param(pid, int, 0755);
 static int hello_init(void)
 {
     struct task_struct *task = pid_task(find_vpid(pid), PIDTYPE_PID);
+    if(task == NULL){
+        printk(KERN_ALERT "bad pid\n");
+        return -EFAULT;
+    }
     struct task_struct *parent = task->parent;
     struct task_struct *p = NULL;
 
@@ -24,8 +28,19 @@ static int hello_init(void)
     printk(KERN_ALERT "父进程:%s,pid:%d\n", parent->comm, parent->pid);
     printk(KERN_ALERT "该进程:%s,pid:%d\n", task->comm, task->pid);
 
+    /** 
+    * list_for_each - iterate over a list
+    * @pos: the &struct list_head to use as a loop cursor.
+    * @head: the head for your list.
+    */
     list_for_each(sibling, &task->sibling)
     {
+        /** 
+        * list_entry - get the struct for this entry
+        * @ptr: the &struct list_head pointer.
+        * @type: the type of the struct this is embedded in.
+        * @member: the name of the list_head within the struct.
+        */
         p = list_entry(sibling, struct task_struct, sibling);
         if (p->pid != pid)
         {
