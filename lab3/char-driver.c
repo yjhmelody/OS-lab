@@ -111,7 +111,7 @@ static loff_t yjh_llseek(struct file *file, loff_t offset, int whence)
 
 static int yjh_release(struct inode *inode, struct file *file)
 {
-    printk("char_dev device resealed.\n");
+    printk("char_dev device release.\n");
     return 0;
 }
 
@@ -153,6 +153,8 @@ yjh_driver_init(void)
     cdev_add(&yjh_dev.cdev, MKDEV(device_major, 0), device_count);
     // 执行 cdev_add()操作后，意味着一个字符设备对象已经加入了系统，以后用户程序可
     // 以通过文件系统接口找到对应的驱动程序。
+
+    printk("init\n");
     return 0;
 }
 
