@@ -101,12 +101,14 @@ static loff_t yjh_llseek(struct file *file, loff_t offset, int whence)
             return -1;
         }
         pos = file->f_pos + offset;
+        break;
     case SEEK_END:
         pos = device_size + offset;
+        break;
     }
     file->f_pos = pos;
     printk("char_dev device llseek.\n");
-    return 0;
+    return offset;
 }
 
 static int yjh_release(struct inode *inode, struct file *file)

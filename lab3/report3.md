@@ -28,3 +28,6 @@ p->count = count;
 return kobj_map(cdev_map, dev, count, NULL, exact_match, exact_lock, p);
 }
 其中的输入参数分别是 cdev 结构指针、起始设备号、次设备号数量
+
+
+chmod 777 dev
