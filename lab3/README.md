@@ -73,9 +73,9 @@ struct inode
 ````
 
 * 初始化流程:
-    * 分配设备号
-    * 定义 cdev 结构并初始化
-    * 注册 cdev 结构
+    * 分配设备号 register_chrdev_region
+    * 定义 cdev 结构并初始化 cdev_init
+    * 注册 cdev 结构 cdev_add
 * 实现字符设备驱动程序的操作函数
     * 实现 file_operations 结构中要用到的函数
     * 添加 file_operations 成员
