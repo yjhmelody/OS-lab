@@ -26,39 +26,28 @@ int main()
         return 0;
     }
     printf("write count: %d\n", count);
-    
+    // seek 1
     int ret = lseek(fd , 2, SEEK_SET);
-    if ( ret != 0){
+    if ( ret < 0){
         printf("lseek error\n");
+        return 0;
     }
-
-    count = read(fd, read_str, 10);
+    printf("lseek: %d\n", ret);
+    
+    count = read(fd, read_str, 20);
     if(count < 0 ){
         printf("read error\n");
         return 0;
     }
     printf("read str:%s\n", read_str);
-    count = read(fd, read_str, 10);
+    count = read(fd, read_str, 100);
     if(count < 0 ){
         printf("read error\n");
         return 0;
     }
     printf("read count: %d\n", count);
     printf("read str: %s\n", read_str);
-    
-    ret = lseek(fd , 10, SEEK_CUR);
-    if ( ret != 0){
-        printf("lseek error\n");
-    }
-
-    count = read(fd, read_str, 3);
-    if(count < 0 ){
-        printf("read error\n");
-        return 0;
-    }
-    printf("read count: %d\n", count);
-    printf("read str: %s\n", read_str);
-    
+ 
     close(fd);
     printf("close\n");
     return 0;

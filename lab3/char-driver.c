@@ -89,25 +89,14 @@ static ssize_t yjh_write(struct file *file, const char __user *buf, size_t n, lo
 // 返回一个新位置，设置成从文件起始处算起的一个偏移量。-1表示函数执行出错。会设置errno
 static loff_t yjh_llseek(struct file *file, loff_t offset, int whence)
 {
-    long long int pos = 0;
-    switch (whence)
-    {
-    case SEEK_SET:
-        pos = offset;
-        break;
-    case SEEK_CUR:
-        if (offset < 0 || offset > device_size)
-        {
-            return -1;
-        }
-        pos = file->f_pos + offset;
-        break;
-    case SEEK_END:
-        pos = device_size + offset;
-        break;
+    // SEEK_SET 
+    if (whence != SEEK_SET) {
+        return -1;
     }
-    file->f_pos = pos;
-    printk("char_dev device llseek.\n");
+    if (offset < 0 || offset > 512) {
+        return -1;
+    }
+    filp->f_pos = offset;
     return offset;
 }
 
