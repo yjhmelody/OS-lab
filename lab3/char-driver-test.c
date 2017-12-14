@@ -40,7 +40,7 @@ int main()
         return 0;
     }
     printf("read str:%s\n", read_str);
-    count = read(fd, read_str, 100);
+    count = read(fd, read_str, 10);
     if(count < 0 ){
         printf("read error\n");
         return 0;
