@@ -118,7 +118,6 @@
  */
 SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *, prio, void __user *, nice)
 {
-	// priority function's return value
 	if(pid < 0 || (flag != 1 && flag != 0)){
 		return -EFAULT;
 	}
@@ -129,16 +128,12 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 
 	struct task_struct *p;
 	int temp;
-	// finder begins at init_task
 	for(p = &init_task;(p = next_task(p)) != &init_task;){
-		// when find the pid
 		if(p->pid == pid){
 			// set
 			if(flag == 1){
 				set_user_nice(p, nicevalue);
 			}
-			// get
-			// need to transform type
 			
 			temp = task_nice(p);
 			if(copy_to_user(nice, &temp, sizeof(int))){
@@ -148,8 +143,6 @@ SYSCALL_DEFINE5(mysetnice, pid_t, pid, int, flag, int, nicevalue, void __user *,
 			if(copy_to_user(prio, &temp, sizeof(int))){
 				return -EFAULT;
 			}
-			// *(int*)nice = (int)task_nice(p);
-			// *(int*)prio = (int)task_prio(p);
 			return 0;
 		}
 	}
