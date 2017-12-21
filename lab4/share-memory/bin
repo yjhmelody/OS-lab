@@ -1,0 +1,4 @@
+gcc sender.c -lpthread -o sender
+gcc reciver.c -lpthread -o reciver
+chmod 755 sender 
+chmod 755 reciver 
