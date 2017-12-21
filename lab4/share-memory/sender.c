@@ -22,8 +22,8 @@ sem_t *sem_recive;
 int main()
 {
     // init
-    printf("init\n");
     char msg[512];
+    char msg2[512];
     int shmid = shmget(key, sizeof(message), 0666 | IPC_CREAT);
     check_error(shmid);
 
@@ -36,7 +36,6 @@ int main()
 
     printf("请输入: ");
     scanf("%s", msg);
-    printf("你输入的是: ");
 
     // 发送信息
     sem_wait(sem_send);
