@@ -45,6 +45,7 @@ int main()
 	sem_unlink(name1);
 	sem_unlink(name2);
 
+    shmctl(shmid, IPC_RMID, shmp);
     printf("sender end\n");
     return 0;
 }
