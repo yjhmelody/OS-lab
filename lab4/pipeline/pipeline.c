@@ -20,26 +20,32 @@
 
 void read_from_pipe(int fd){
     char buf[50];
-    read(fd,buf,sizeof(buf));
-    printf("message is :\n%s\n",buf);
+    int n = read(fd,buf,sizeof(buf));
+    buf[n] = '\0';
+    printf("message is :\n%s\n", buf);
+    printf("实际读取到的字节数: %d\n", n);
 }
 
 void write_to_pipe1(int fd){
     char *buf="test 1!\n";
     printf("LOOK1\n");
-    write(fd,buf,strlen(buf));
+    int n = write(fd,buf,strlen(buf));
+    printf("实际写入的字节数: %d\n", n);
 }
 
 void write_to_pipe2(int fd){
     char *buf="test 2!\n";
     printf("LOOK2\n");
-    write(fd,buf,strlen(buf));
+    int n = write(fd,buf,strlen(buf));
+    printf("实际写入的字节数: %d\n", n);
 }
 
 void write_to_pipe3(int fd){
     char *buf="test 3!\n";
     printf("LOOK3\n");
-    write(fd,buf,strlen(buf));
+    int n = write(fd,buf,strlen(buf));
+    printf("实际写入的字节数: %d\n", n);
+
 }
 
 #define name1 "mutex"

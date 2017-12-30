@@ -20,13 +20,13 @@ int main() {
     else if (id == 1) {
       int p = fork();
       if (p == 0)
-        execl("./cmd1", NULL);
+        execl("./cmd1.out", NULL);
       else
         wait(NULL);
     } else if (id == 2) {
       int p = fork();
       if (p == 0)
-        execl("./cmd2", NULL);
+        execl("./cmd2.out", NULL);
       else
         wait(NULL);
     } else if (id == 3) {
@@ -34,7 +34,7 @@ int main() {
       scanf("%s", arg);
       int p = fork();
       if (p == 0)
-        execl("./cmd3", arg, NULL);
+        execl("./cmd3.out", arg, NULL);
       else
         wait(NULL);
     } else {
