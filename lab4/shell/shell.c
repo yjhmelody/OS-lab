@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int getId(char s[]) {
-  static char dict[][22] = {"exit", "ls", "clear", "rm"};
+  static char dict[][22] = {"exit", "cwd", "clear", "rm"};
   for (int i = 0; i < 4; ++i)
     if (strcmp(dict[i], s) == 0)
       return i;

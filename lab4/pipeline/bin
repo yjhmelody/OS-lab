@@ -1,0 +1,1 @@
+gcc pipeline.c -o pipe -lpthread
